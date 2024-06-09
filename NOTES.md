@@ -29,3 +29,7 @@ field to attestations later, the cleaner answer is to deploy a new
 `MemoryAttestor` and let agents reference both during a migration window.
 The pattern of doing on-chain attestations is meant to be cheap and append-
 only — proxies fight that.
+
+## gas
+
+target: per-attestation < 100k gas. currently ~76k for warm SSTORE. ok.
