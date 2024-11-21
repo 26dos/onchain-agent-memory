@@ -3,11 +3,6 @@ pragma solidity ^0.8.24;
 
 import {AgentRegistry} from "./AgentRegistry.sol";
 
-/// @title BatchAttestor
-/// @notice Commits to a merkle root over many trace hashes. Reduces gas
-/// cost for high-volume agents from O(n) to O(1) per batch. Verification
-/// of an individual trace is done off-chain (via merkle proof) and
-/// optionally on-chain via {verifyInclusion}.
 contract BatchAttestor {
     AgentRegistry public immutable registry;
 
@@ -39,7 +34,7 @@ contract BatchAttestor {
         bytes32 root,
         uint64 size
     ) external returns (uint64 index) {
-        (address operator,, , bool active) = registry.agents(agentId);
+        (address operator, , , bool active) = registry.agents(agentId);
         if (msg.sender != operator) revert NotOperator();
         if (!active) revert InactiveAgent();
         index = nextBatchIndex[agentId];
@@ -52,7 +47,6 @@ contract BatchAttestor {
         emit BatchAttested(agentId, index, root, size);
     }
 
-    /// @notice Verify a trace hash is included in a batch via merkle proof.
     function verifyInclusion(
         bytes32 agentId,
         uint64 batchIndex,
@@ -61,10 +55,11 @@ contract BatchAttestor {
     ) external view returns (bool) {
         bytes32 root = batches[agentId][batchIndex].root;
         if (root == bytes32(0)) return false;
+        // a single-leaf tree: root == leaf, proof is empty
+        if (proof.length == 0) return root == traceHash;
         bytes32 leaf = traceHash;
         for (uint256 i = 0; i < proof.length; i++) {
             bytes32 sibling = proof[i];
-            // sorted-pair hashing (matches openzeppelin merkle proof)
             leaf = leaf < sibling
                 ? keccak256(abi.encodePacked(leaf, sibling))
                 : keccak256(abi.encodePacked(sibling, leaf));
