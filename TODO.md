@@ -5,3 +5,4 @@
 - [ ] examples/ with a small trader publishing decisions
 - [ ] merkle root + proof helpers in python
 - [ ] add reasonCode bytes32 to Attestation struct
+- [ ] forge fuzz on attest() — should be monotonic
