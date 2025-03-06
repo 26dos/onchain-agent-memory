@@ -7,3 +7,4 @@
 - [ ] add reasonCode bytes32 to Attestation struct
 - [ ] forge fuzz on attest() — should be monotonic
 - [ ] github actions for forge + python
+- [ ] sdk: setup.cfg / pyproject for pip install
