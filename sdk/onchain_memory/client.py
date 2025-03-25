@@ -4,12 +4,12 @@ from pathlib import Path
 
 from web3 import Web3
 from eth_account import Account
+from eth_utils import keccak
 
 from .hash import trace_hash, input_digest, canonicalize
 from .schema import Trace
 
 
-# Minimal ABIs — the contracts have richer ones, we only need these methods.
 ATTESTOR_ABI = [
     {
         "inputs": [
@@ -17,6 +17,7 @@ ATTESTOR_ABI = [
             {"name": "traceHash", "type": "bytes32"},
             {"name": "inputDigest", "type": "bytes32"},
             {"name": "modelVersion", "type": "uint32"},
+            {"name": "reasonCode", "type": "bytes32"},
         ],
         "name": "attest",
         "outputs": [{"name": "index", "type": "uint64"}],
@@ -34,6 +35,7 @@ ATTESTOR_ABI = [
             {"name": "inputDigest", "type": "bytes32"},
             {"name": "timestamp", "type": "uint64"},
             {"name": "modelVersion", "type": "uint32"},
+            {"name": "reasonCode", "type": "bytes32"},
         ],
         "stateMutability": "view",
         "type": "function",
@@ -41,7 +43,7 @@ ATTESTOR_ABI = [
 ]
 
 
-def _to_bytes32(s: str) -> bytes:
+def _to_bytes32(s) -> bytes:
     if isinstance(s, bytes):
         return s.rjust(32, b"\x00")
     return Web3.keccak(text=s)
@@ -55,20 +57,21 @@ class MemoryClient:
         )
         self.account = Account.from_key(private_key) if private_key else None
 
-    def publish(self, trace: Trace) -> dict:
+    def publish(self, trace: Trace, reason_code: str = "") -> dict:
         if self.account is None:
             raise ValueError("private_key required to publish")
         agent_id = _to_bytes32(trace.agent_id)
         d = trace.to_dict()
         th = trace_hash(d)
         idg = input_digest(d["input"])
+        rc = _to_bytes32(reason_code) if reason_code else b"\x00" * 32
 
         tx = self.contract.functions.attest(
-            agent_id, th, idg, int(trace.model_version),
+            agent_id, th, idg, int(trace.model_version), rc,
         ).build_transaction({
             "from": self.account.address,
             "nonce": self.w3.eth.get_transaction_count(self.account.address),
-            "gas": 200_000,
+            "gas": 250_000,
             "gasPrice": self.w3.eth.gas_price,
         })
         signed = self.account.sign_transaction(tx)
@@ -83,18 +86,16 @@ class MemoryClient:
 
     def read(self, agent_id: str, index: int) -> dict:
         a = _to_bytes32(agent_id)
-        th, idg, ts, mv = self.contract.functions.attestations(a, index).call()
+        th, idg, ts, mv, rc = self.contract.functions.attestations(a, index).call()
         return {
             "trace_hash": "0x" + th.hex(),
             "input_digest": "0x" + idg.hex(),
             "timestamp": ts,
             "model_version": mv,
+            "reason_code": "0x" + rc.hex(),
         }
 
-
-
     def verify(self, trace: Trace, on_chain_index: int) -> dict:
-        """Re-hash the local trace and compare to the on-chain attestation."""
         d = trace.to_dict()
         local_hash = "0x" + trace_hash(d).hex()
         local_digest = "0x" + input_digest(d["input"]).hex()
