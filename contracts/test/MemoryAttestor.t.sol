@@ -35,3 +35,15 @@ contract MemoryAttestorTest is Test {
         attestor.attest(AGENT, bytes32(0), bytes32(0), 1);
     }
 }
+
+
+
+    function testFuzz_attest_increments_monotonically(
+        bytes32 traceHash, bytes32 inputDigest, uint32 modelVersion, uint8 count
+    ) public {
+        vm.assume(count > 0 && count < 32);
+        for (uint8 i = 0; i < count; i++) {
+            uint64 idx = attestor.attest(AGENT, traceHash, inputDigest, modelVersion, bytes32(0));
+            assertEq(idx, i);
+        }
+    }
