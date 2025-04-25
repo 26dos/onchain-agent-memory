@@ -8,3 +8,4 @@
 - [ ] forge fuzz on attest() — should be monotonic
 - [ ] github actions for forge + python
 - [ ] sdk: setup.cfg / pyproject for pip install
+- [ ] gas costs document with break-even point for batch
