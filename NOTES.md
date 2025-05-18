@@ -57,3 +57,7 @@ attestor + registry < 24kb each. plenty of headroom.
 ## reason codes
 
 added bytes32 reason code field; lets producers tag attestations (e.g. keccak("liquidation_response")).
+
+## batch break-even
+
+at ~4 traces, batch is cheaper than single. below that, just use attest().
