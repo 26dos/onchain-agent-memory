@@ -77,3 +77,7 @@ plenty of room — only the hash hits chain. go nuts off-chain.
 ## upgrades
 
 not upgradeable on purpose. new versions = new contract address + migration window.
+
+## gas profile
+
+attestBatch with 32 leaves: ~85k gas. break-even at ~4 leaves vs single attest.
