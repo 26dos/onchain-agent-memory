@@ -61,3 +61,7 @@ added bytes32 reason code field; lets producers tag attestations (e.g. keccak("l
 ## batch break-even
 
 at ~4 traces, batch is cheaper than single. below that, just use attest().
+
+## ci
+
+pinning foundry-toolchain to a specific version after a flaky upgrade.
