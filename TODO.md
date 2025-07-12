@@ -14,3 +14,4 @@
 - [ ] expand docs/lifecycle.md with batch vs single guidance
 - [ ] examples/batch_publish.py
 - [ ] the graph subgraph for indexing attestations
+- [ ] deployment scripts for arbitrum / base
