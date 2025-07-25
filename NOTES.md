@@ -81,3 +81,7 @@ not upgradeable on purpose. new versions = new contract address + migration wind
 ## gas profile
 
 attestBatch with 32 leaves: ~85k gas. break-even at ~4 leaves vs single attest.
+
+## clients
+
+thought about a typescript sdk; deferred for now. python first.
