@@ -65,3 +65,7 @@ at ~4 traces, batch is cheaper than single. below that, just use attest().
 ## ci
 
 pinning foundry-toolchain to a specific version after a flaky upgrade.
+
+## other chains
+
+cosmwasm and solana wrappers possible but not planned yet — focus on EVM first.
