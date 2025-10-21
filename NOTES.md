@@ -69,3 +69,7 @@ pinning foundry-toolchain to a specific version after a flaky upgrade.
 ## other chains
 
 cosmwasm and solana wrappers possible but not planned yet — focus on EVM first.
+
+## trace size
+
+plenty of room — only the hash hits chain. go nuts off-chain.
