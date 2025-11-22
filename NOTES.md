@@ -93,3 +93,7 @@ web3 client doesn't retry; relies on caller. fine for now.
 ## zk
 
 thought about zk-snark proof of trace authenticity. overkill for now.
+
+## agent ids
+
+recommend `org/agent-name@version` convention. no enforcement on chain.
