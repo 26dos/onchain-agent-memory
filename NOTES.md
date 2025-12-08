@@ -73,3 +73,7 @@ cosmwasm and solana wrappers possible but not planned yet — focus on EVM first
 ## trace size
 
 plenty of room — only the hash hits chain. go nuts off-chain.
+
+## upgrades
+
+not upgradeable on purpose. new versions = new contract address + migration window.
