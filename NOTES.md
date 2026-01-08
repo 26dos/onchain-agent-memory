@@ -97,3 +97,7 @@ thought about zk-snark proof of trace authenticity. overkill for now.
 ## agent ids
 
 recommend `org/agent-name@version` convention. no enforcement on chain.
+
+## 2026
+
+plan: docs polish + l2 deployment scripts. no big new features.
