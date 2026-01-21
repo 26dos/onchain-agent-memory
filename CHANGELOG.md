@@ -6,3 +6,4 @@
 - 0.3.3 (2025-09-17): estimate_gas helper
 - 0.3.4 (2025-10-28): doc polish
 - 0.3.5 (2025-12-04): motivation note in NOTES.md
+- 0.4.0 (2026-01-21): minor api tweaks
