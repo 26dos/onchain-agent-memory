@@ -20,3 +20,4 @@
 - [ ] wagmi-style hooks for react frontends (out of scope?)
 - [ ] sdk cli: verify a local trace against on-chain digest
 - [ ] typescript sdk (probably needs viem)
+- [ ] cookbook: 5 example use cases (trader, governance bot, etc.)
