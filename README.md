@@ -10,6 +10,16 @@ The implementation uses Solidity contracts plus a Python SDK, but the systems
 question is about agent observability: what evidence should exist after an
 agent takes an important action?
 
+## Demo Snapshot
+
+![Verifiable agent memory demo](docs/assets/screenshots/agent-memory-demo.png)
+
+The demo shows an agent trace moving from runtime schema to hash commitment,
+attestation, and later verification by a reviewer.
+
+See [docs/demo-walkthrough.md](docs/demo-walkthrough.md) for a sequence diagram,
+entity graph, and sample verification result.
+
 ## What It Demonstrates
 
 - **Trace commitments**: publish `keccak256(trace)` plus metadata instead of
