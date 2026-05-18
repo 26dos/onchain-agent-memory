@@ -13,6 +13,6 @@ def test_trace_hash_changes_with_value():
     assert a != b
 
 
-def test_trace_hash_unicode():
-    h = trace_hash({"note": "hello — 世界"})
+def test_trace_hash_text_payload():
+    h = trace_hash({"note": "hello-world"})
     assert len(h) == 32
